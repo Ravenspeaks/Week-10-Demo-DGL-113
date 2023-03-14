@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      This page is used to illustrate controlling audio/viseo play with JS
+    -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="examples.css" />
+    <title>Lessons 15-17 Examples</title>
+    <title>Switching stylesheets with JavaScript</title>
+    <link rel="stylesheet" href="greenback.css" />
+    <link rel="stylesheet" href="pinkback.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/img0.jpg" alt="Header image" />
+    <nav>
+      <ul>
+        <li>
+          <a href="avcontrol.html" target="new">A/V Control</a>
+        </li>
+        <li>
+          <a href="cssselection.html">CSS Selection</a>
+        </li>
+        <li>
+          <a href="animation.html">Animation</a>
+        </li>
+      </ul>
+    </nav>
+    </header>
+    <main id="main">
+      <h2>Select a Stylesheet</h2>
+      <h3>Switch stylesheets with the button below!</h3>
+      <div id="buttons">
+        <button id="btn1">Change Sheet</button>
+        <button id="btn1">Green Back</button>
+      </div>
+      <section id="section1">
+        <h3>Things To Do</h3>
+        <p>The list has <span>3</span> items.</p>
+        <ol id="toDoList">
+          <li>Mow the lawn</li>
+          <li>Clean the windows</li>
+          <li>Answer your email</li>
+        </ol>
+        <p id="toDoNotes">
+          Make sure all these are completed by 8pm so you can watch the game on
+          TV!
+        </p>
+      </section>
+      <section id="section2">
+        <h3>Practice with this list</h3>
+        <ol id="toDoList">
+          <li>Mow the lawn</li>
+          <li>Clean the windows</li>
+          <li>Answer your email</li>
+        </ol>
+        <p id="toDoNotes">
+          Make sure all these are completed by 8pm so you can watch the
+        </p>
+      </section>
+    </main>
+    <footer id="footer">footer of the page</footer>
+    <script>
+      "use strict";
+      function setDefaultSSheet() {
+        //make the 1st style sheet as the default and disable all others
+       //  document.styleSheets[1].disabled = false;
+        for (var i = 1; i < document.styleSheets.length; i++) {
+          document.styleSheets[i].disabled = true;
+        }
+      }
+      function ssEnable(sheet) {
+        let oldSheet; // indicates the old enabled SSheet
+        //find and record the currently enabled SSheet
+        // you can disable all sheets, but this solution is a little polished
+        // 1. sheet is invalid; 2. if selected the same sheet
+        for (var i = 1; i < document.styleSheets.length; i++) {
+          if (i == sheet) {
+            document.styleSheets[sheet].disabled = false;
+          }else {
+          document.styleSheets[i].disabled = true;
+          }
+          /*
+          if (document.styleSheets[i].disabled == false) {
+           // oldSheet = i;
+            break;
+          }*/
+        }
+        
+        // enable the user selected stylesheet and disable the currently enabled SSheet.
+        // The if is unnecessary though it doesn't hurt
+        /*
+        if (sheet < document.styleSheets.length && sheet >= 1) {
+          document.styleSheets[sheet].disabled = false;
+         // if (oldSheet) {
+         // document.styleSheets[oldSheet].disabled = true;
+         // }
+       // }*/
+      
+      }
+      function sheet(e) {
+        var sheetIndex = 1;
+        let sheetname = e.target.innerHTML.trim();
+        switch (sheetname.toLowerCase()) {
+          case "green back":
+            sheetIndex = 1;
+            sheetname = "Pink Back";
+            break;
+          case "pink back":
+            sheetIndex = 2;
+            sheetname = "Green Back";
+            break;
+          default:
+            sheetIndex = null;
+        }
+        e.target.innerHTML = sheetname;
+        if (sheetIndex != null) {
+          ssEnable(sheetIndex);
+        } else {
+          alert("Not found - original stylesheet retained.");
+        }
+      }
+      window.onload = function () {
+        document.querySelectorAll("button")[1].onclick = sheet;
+        // Set the default CSS. Otherwise, all stylesheet will be enabled and the last one takes effect.
+        // setDefaultSSheet();
+        ssEnable(1);
+      };
+    </script>
+  </body>
+</html>
